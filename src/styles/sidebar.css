@@ -1,0 +1,31 @@
+#sidebar{
+    display:flex;
+    flex-direction:column;
+    background-color:rgb(46, 117, 120);
+    width:20vw;
+    height:90vh;
+    justify-content:space-around;
+    align-items:center;
+}
+
+.boton{
+    padding:2rem;
+    width: 80%;
+    cursor:crosshair;
+    font-size:1.1rem;
+    border:2px solid transparent;
+    border-radius:8px;
+}
+
+.boton:hover{
+    background-color:#6A44B5;
+    color:white;
+    transition: 0.3s ease-in-out;
+}
+
+.boton.activo{
+    background-color:#382460;
+    color:white;
+    border-color:white;
+    font-weight:bold;
+}
