@@ -30,6 +30,7 @@ function EmployeeCard({ nombre, correo, ciudad }: EmployeeCardProps) {
 function Personal() {
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
   const [pedido, setPedido] = useState(false);
+   const [busqueda, setBusqueda] = useState("");
 
   async function obtenerEmpleados(): Promise<void> {
     try {
@@ -46,16 +47,30 @@ function Personal() {
     obtenerEmpleados();
   }
 
+  function Buscar() {
+    const input = document.querySelector(".buscador") as HTMLInputElement;
+    setBusqueda(input.value.trim().toLowerCase());
+  }
+
+  const empleadosFiltrados = empleados.filter((e) =>
+    e.name.toLowerCase().includes(busqueda)
+  );
+
   return (
     <>
-      <input
-        className="buscador"
-        type="text"
-        placeholder="Buscar empleado por nombre..."
-      />
+      <div className="botonBuscar">      
+        <input
+          className="buscador"
+          type="text"
+          placeholder="Buscar en el inventario"
+        />
+        <button id="botonDeBuscador" onClick={Buscar}>Buscar</button>
+      </div>
+
+      <h2 className="titulo">Personal</h2>
 
       <div className="lista">
-        {empleados.map((e) => (
+        {empleadosFiltrados.map((e) => (
           <EmployeeCard
             key={e.id}
             nombre={e.name}

@@ -34,6 +34,7 @@ function IncidentCard({ id, titulo, departamento, completada }: IncidentCardProp
 function Incidencias() {
   const [incidencias, setIncidencias] = useState<Incidencia[]>([]);
   const [pedido, setPedido] = useState(false);
+  const [busqueda, setBusqueda] = useState("");
 
   async function obtenerIncidencias(): Promise<void> {
     try {
@@ -51,17 +52,28 @@ function Incidencias() {
     obtenerIncidencias();
   }
 
+  function Buscar(){
+    const input = document.querySelector(".buscador") as HTMLInputElement;
+    setBusqueda(input.value.trim().toLowerCase());
+  }
+  const incidenciasFiltradas = incidencias.filter((i) =>
+    i.title.toLowerCase().includes(busqueda)
+  );
+
   return (
     <>
-      <input
-        className="buscador"
-        type="text"
-        placeholder="Buscar incidencia"
-      />
+      <div className="botonBuscar">      
+        <input
+          className="buscador"
+          type="text"
+          placeholder="Buscar en el inventario"
+        />
+        <button id="botonDeBuscador" onClick={Buscar}>Buscar</button>
+      </div>
 
       <h2 className="titulo">Registro de incidencias</h2>
       <div className="lista">
-        {incidencias.map((i) => (
+        {incidenciasFiltradas.map((i) => (
           <IncidentCard
             key={i.id}
             id={i.id}

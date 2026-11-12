@@ -33,10 +33,12 @@ function AssetCard({ titulo, categoria, precio, imagen }: AssetCardProps) {
 function Inventario() {
   const [activos, setActivos] = useState<Activo[]>([]);
   const [pedido, setPedido] = useState(false);
+   const [busqueda, setBusqueda] = useState("");
+  
 
   async function obtenerActivos(): Promise<void> {
     try {
-      const respuesta = await fetch("https://fakestoreapi.com/products?limit=20");
+      const respuesta = await fetch("https://fakestoreapi.com/products?limit=10");
 
       const datos = await respuesta.json();
       setActivos(datos);
@@ -50,19 +52,30 @@ function Inventario() {
     obtenerActivos();
   }
 
+  function Buscar() {
+    const input = document.querySelector(".buscador") as HTMLInputElement;
+    setBusqueda(input.value.trim().toLowerCase());
+  }
+
+  const activosFiltrados = activos.filter((a) =>
+    a.title.toLowerCase().includes(busqueda)
+  );
+
   return (
     <>
-
-      <input
-        className="buscador"
-        type="text"
-        placeholder="Buscar en el inventario"
-      />
+      <div className="botonBuscar">      
+        <input
+          className="buscador"
+          type="text"
+          placeholder="Buscar en el inventario"
+        />
+        <button id="botonDeBuscador" onClick={Buscar}>Buscar</button>
+      </div>
 
       <h2 className="titulo">Inventario de activos</h2>
 
       <div className="lista">
-        {activos.map((a) => (
+        {activosFiltrados.map((a) => (
           <AssetCard
             key={a.id}
             titulo={a.title}
